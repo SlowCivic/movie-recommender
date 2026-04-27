@@ -9,13 +9,20 @@ import os
 API_KEY = st.secrets["TMDB_API_KEY"]
 
 def get_poster(movie_title):
-	url = f"https://api.themoviedb.org/3/search/movie?api_key={API_KEY}&query={movie_title}"
-	data = requests.get(url).json()
+	clean_title = re.sub(r"\(\d{4}\)", "", movie_title).strip()	
+
+	url = f"https://api.themoviedb.org/3/search/movie?	api_key={API_KEY}&query={clean_title}"
+		data = requests.get(url).json()
 
 	if data["results"]:
-		poster_path = data["results"][0]["poster_path"]
-		if poster_path:
-			return "https://image.tmdb.org/t/p/w500" + poster_path
+		for result in date["results"]:
+			if result["poster_path"]:
+				return "https://image.tmdb.org/t/p/w500" + result["poster_path"]
+
+if poster:
+	st.image(poster)
+else:
+	st.image("https://via.placeholder.com/300x450?text=No+Image")
 
 	return None
 
