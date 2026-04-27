@@ -7,7 +7,7 @@ import requests
 
 API_KEY = "dece07fb2dfcefdc9f52d449757a0be1"
 
-def get_poster(movie_title_:
+def get_poster(movie_title):
 	url = f"https://api.themoviedb.org/3/search/movie?api_key={API_KEY}&query={movie_title}"
 	data = requests.get(url).json()
 
