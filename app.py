@@ -32,33 +32,33 @@ genre_matrix = vectorizer.fit_transform(movies["genres"])
 content_similarity = cosine_similarity(genre_matrix)
 
 def recommend(movie_title):
-    matches = get_close_matches(movie_title, titles, n=1, cutoff=0.4)
+	matches = get_close_matches(movie_title, titles, n=1, cutoff=0.4)
 
-    if not matches:
-        return ["Movie not found"]
+	if not matches:	
+		return ["Movie not found"]
 
-    best_match = matches[0]
+	best_match = matches[0]
 
-    idx = movies[movies["title"] == best_match].index[0]
+	idx = movies[movies["title"] == best_match].index[0]
 
-    scores = list(enumerate(content_similarity[idx]))
-    scores = sorted(scores, key=lambda x: x[1], reverse=True)
+	scores = list(enumerate(content_similarity[idx]))
+	scores = sorted(scores, key=lambda x: x[1], reverse=True)
 
-    recommendations = []
-    for i in scores[1:6]:
-        recommendations.append(movies.iloc[i[0]]["title"])
+	recommendations = []
+	for i in scores[1:6]:
+	recommendations.append(movies.iloc[i[0]]["title"])
 
-    return [best_match] + recommendations
+	return [best_match] + recommendations
 
 user_input = st.selectbox("Choose a movie:", titles)
 
 if st.button("Recommend"):
-    results = recommend(user_input)
+	results = recommend(user_input)
 
-    st.write(f"### Showing results for: {results[0]}")
+	st.write(f"### Showing results for: {results[0]}")
 
-    for movie in results[1:]:
-        poster = get_poster(movie)
+	for movie in results[1:]:
+		poster = get_poster(movie)
 
 	if poster:
 		st.image(poster, width=150)
