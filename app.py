@@ -46,7 +46,7 @@ def recommend(movie_title):
 
 	recommendations = []
 	for i in scores[1:6]:
-	recommendations.append(movies.iloc[i[0]]["title"])
+		recommendations.append(movies.iloc[i[0]]["title"])
 
 	return [best_match] + recommendations
 
@@ -60,6 +60,6 @@ if st.button("Recommend"):
 	for movie in results[1:]:
 		poster = get_poster(movie)
 
-	if poster:
-		st.image(poster, width=150)
-	st.write(movie)
+		if poster:
+			st.image(poster, width=150)
+		st.write(movie)
