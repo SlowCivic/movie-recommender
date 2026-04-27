@@ -11,7 +11,7 @@ API_KEY = st.secrets["TMDB_API_KEY"]
 def get_poster(movie_title):
 	clean_title = re.sub(r"\(\d{4}\)", "", movie_title).strip()	
 
-	url = f"https://api.themoviedb.org/3/search/movie?	api_key={API_KEY}&query={clean_title}"
+	url = f"https://api.themoviedb.org/3/search/movie?api_key={API_KEY}&query={clean_title}"
 	data = requests.get(url).json()
 
 	if data["results"]:
