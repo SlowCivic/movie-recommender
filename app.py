@@ -6,7 +6,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import requests
 
 import os
-API_KEY = os.getenv("TMDB_API_KEY")
+API_KEY = st.secrets["TMDB_API_KEY"]
 
 def get_poster(movie_title):
 	url = f"https://api.themoviedb.org/3/search/movie?api_key={API_KEY}&query={movie_title}"
