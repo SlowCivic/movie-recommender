@@ -1,0 +1,50 @@
+import streamlit as st
+import pandas as pd
+from difflib import get_close_matches
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+st.title("Movie Recommender")
+
+# Load data
+movies = pd.read_csv("movies.csv")
+ratings = pd.read_csv("ratings.csv")
+
+titles = movies["title"].tolist()
+
+# 🔥 ADD THIS BLOCK RIGHT HERE (before the function)
+movies["genres"] = movies["genres"].str.replace("|", " ")
+vectorizer = CountVectorizer()
+genre_matrix = vectorizer.fit_transform(movies["genres"])
+content_similarity = cosine_similarity(genre_matrix)
+
+# Function
+def recommend(movie_title):
+    matches = get_close_matches(movie_title, titles, n=1, cutoff=0.4)
+
+    if not matches:
+        return ["Movie not found"]
+
+    best_match = matches[0]
+
+    idx = movies[movies["title"] == best_match].index[0]
+
+    scores = list(enumerate(content_similarity[idx]))
+    scores = sorted(scores, key=lambda x: x[1], reverse=True)
+
+    recommendations = []
+    for i in scores[1:6]:
+        recommendations.append(movies.iloc[i[0]]["title"])
+
+    return [best_match] + recommendations
+
+# UI
+user_input = st.text_input("Enter a movie:")
+
+if st.button("Recommend"):
+    results = recommend(user_input)
+
+    st.write(f"### Showing results for: {results[0]}")
+
+    for movie in results[1:]:
+        st.success(movie)
