@@ -5,7 +5,8 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import requests
 
-API_KEY = "dece07fb2dfcefdc9f52d449757a0be1"
+import os
+API_KEY = os.getenv("TMDB_API_KEY")
 
 def get_poster(movie_title):
 	url = f"https://api.themoviedb.org/3/search/movie?api_key={API_KEY}&query={movie_title}"
