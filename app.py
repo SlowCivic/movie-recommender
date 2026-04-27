@@ -17,14 +17,14 @@ def get_poster(movie_title):
 	if data["results"]:
 		for result in date["results"]:
 			if result["poster_path"]:
-				return "https://image.tmdb.org/t/p/w500" + result["poster_path"]
+				return "https://image.tmdb.org/t/p/w500" + 	result["poster_path"]
 
-if poster:
-	st.image(poster)
-else:
-	st.image("https://via.placeholder.com/300x450?text=No+Image")
+	if poster:
+		st.image(poster)
+	else:
+		st.image("https://via.placeholder.com/300x450?text=No+Image")
 
-return None
+	return None
 
 st.title("Movie Recommender")
 st.caption("Type a movie you like and get recommendations 🎥🍿")
