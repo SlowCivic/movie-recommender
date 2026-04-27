@@ -5,20 +5,18 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 st.title("Movie Recommender")
+st.caption("Type a movie you like and get recommendations 🎥🍿")
 
-# Load data
 movies = pd.read_csv("movies.csv")
 ratings = pd.read_csv("ratings.csv")
 
 titles = movies["title"].tolist()
 
-# 🔥 ADD THIS BLOCK RIGHT HERE (before the function)
 movies["genres"] = movies["genres"].str.replace("|", " ")
 vectorizer = CountVectorizer()
 genre_matrix = vectorizer.fit_transform(movies["genres"])
 content_similarity = cosine_similarity(genre_matrix)
 
-# Function
 def recommend(movie_title):
     matches = get_close_matches(movie_title, titles, n=1, cutoff=0.4)
 
@@ -38,8 +36,7 @@ def recommend(movie_title):
 
     return [best_match] + recommendations
 
-# UI
-user_input = st.text_input("Enter a movie:")
+user_input = st.selectbox("Choose a movie:", titles)
 
 if st.button("Recommend"):
     results = recommend(user_input)
