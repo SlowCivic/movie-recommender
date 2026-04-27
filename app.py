@@ -3,6 +3,20 @@ import pandas as pd
 from difflib import get_close_matches
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+import requests
+
+API_KEY = "dece07fb2dfcefdc9f52d449757a0be1"
+
+def get_poster(movie_title_:
+	url = f"https://api.themoviedb.org/3/search/movie?api_key={API_KEY}&query={movie_title}"
+	data = requests.get(url).json()
+
+	if data["results"]:
+		poster_path = data["results"][0]["poster_path"]
+		if poster_path:
+			return "https://image.tmdb.org/t/p/w500" + poster_path
+
+	return None
 
 st.title("Movie Recommender")
 st.caption("Type a movie you like and get recommendations 🎥🍿")
@@ -44,4 +58,8 @@ if st.button("Recommend"):
     st.write(f"### Showing results for: {results[0]}")
 
     for movie in results[1:]:
-        st.success(movie)
+        poster = get_poster(movie)
+
+	if poster:
+		st.image(poster, width=150)
+	st.write(movie)
