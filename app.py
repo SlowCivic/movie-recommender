@@ -24,7 +24,7 @@ if poster:
 else:
 	st.image("https://via.placeholder.com/300x450?text=No+Image")
 
-	return None
+return None
 
 st.title("Movie Recommender")
 st.caption("Type a movie you like and get recommendations 🎥🍿")
