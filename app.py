@@ -4,6 +4,7 @@ from difflib import get_close_matches
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import requests
+import re
 
 import os
 API_KEY = st.secrets["TMDB_API_KEY"]
@@ -15,14 +16,9 @@ def get_poster(movie_title):
 	data = requests.get(url).json()
 
 	if data["results"]:
-		for result in date["results"]:
+		for result in data["results"]:
 			if result["poster_path"]:
 				return "https://image.tmdb.org/t/p/w500" + 	result["poster_path"]
-
-	if poster:
-		st.image(poster)
-	else:
-		st.image("https://via.placeholder.com/300x450?text=No+Image")
 
 	return None
 
@@ -68,6 +64,9 @@ if st.button("Recommend"):
 	for movie in results[1:]:
 		poster = get_poster(movie)
 
-		if poster:
-			st.image(poster, width=150)
-		st.write(movie)
+	if poster:
+		st.image(poster, width=150)
+	else:
+		st.image("https://via.placeholder.com/300x450?text=No+Image")
+
+	st.write(movie)
